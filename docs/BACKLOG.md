@@ -94,8 +94,26 @@
 
 **Fertig, wenn:** drei Vorschläge erzeugt, Rate Limit ausgelöst, Netzwerk-Tab ohne Key.
 
+## Ergänzung (nach Issue 6) — Anfragen für Besitzer*innen
+
+### ⬜ Issue 9 — Wer hat angefragt?
+**Ziel:** Besitzer*innen sehen auf der Detailseite ihres Gegenstands, wer ihn angefragt hat und wie sie die Person erreichen (E-Mail-Adresse) – damit sie die Übergabe absprechen können.
+**Nicht im Umfang:** Anfrage annehmen oder ablehnen, Chat, Benachrichtigungen, Zeitraum.
+**Akzeptanzkriterien:**
+- Gegeben ich bin angemeldet und Besitzer*in eines Gegenstands, den jemand angefragt hat, wenn ich seine Detailseite öffne, dann sehe ich eine Liste „Angefragt von:" mit der E-Mail-Adresse jeder anfragenden Person.
+- Gegeben niemand hat meinen Gegenstand angefragt, dann sehe ich einen Hinweis statt einer leeren Liste.
+- Gegeben jemand zieht seine Anfrage zurück, dann verschwindet sie nach einem Reload aus meiner Liste.
+- Gegeben ich bin **nicht** Besitzer*in des Gegenstands, dann sehe ich dort weder die Liste noch fremde E-Mail-Adressen (auch nicht, wenn ich selbst angefragt habe; Row Level Security).
+- Gegeben ich bin nicht angemeldet, dann sehe ich keine Adressen.
+
+**Fertig, wenn:** mit zwei Testkonten geprüft: Konto B fragt einen Gegenstand von Konto A an, A sieht B in der Liste, B zieht zurück, A sieht den Hinweis; B sieht auf derselben Seite keine Liste.
+
 ## Später / Ideen (nicht im MVP)
 - Anfrage annehmen oder ablehnen (Besitzer*in)
 - Kalender mit freien Tagen
 - Fotos hochladen
 - Kaution und Bewertungen
+- „Gerade verliehen"-Schalter für Besitzer*innen
+- Anmeldung nur mit NDU-E-Mail-Adresse
+- „Ich suche …"-Gesuche
+- Semesterende-Räumung (erfordert Entscheidung, ob Verschenken erlaubt ist)
