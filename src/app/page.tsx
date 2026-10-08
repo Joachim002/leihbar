@@ -1,9 +1,10 @@
 import { Hand, Recycle, Search } from "lucide-react";
 import FeatureCard from "@/components/FeatureCard";
+import GegenstandKarte from "@/components/GegenstandKarte";
 import { gegenstaende } from "@/data/gegenstaende";
 
 export default function Home() {
-  const anzahl = gegenstaende.length;
+  const verfuegbare = gegenstaende.filter((gegenstand) => gegenstand.verfuegbar);
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 py-12 sm:block">
@@ -49,16 +50,23 @@ export default function Home() {
         />
       </section>
 
-      <section
-        id="gegenstaende"
-        className="rounded-2xl border border-dashed border-border bg-card p-8 text-center"
-      >
-        <h2 className="mb-2 text-xl font-semibold">Hier kommt die Liste hin</h2>
-        <p className="mx-auto max-w-md text-sm text-muted">
-          In <code className="rounded bg-accent-soft px-1">src/data/gegenstaende.ts</code>{" "}
-          warten bereits {anzahl} Beispiel-Gegenstände. Dein erstes Issue (Issue 1
-          im Backlog) bringt sie auf diese Seite.
-        </p>
+      <section id="gegenstaende" aria-labelledby="gegenstaende-titel" className="scroll-mt-4">
+        <h2 id="gegenstaende-titel" className="mb-6 text-2xl font-semibold">
+          Das kannst du ausleihen
+        </h2>
+        {verfuegbare.length > 0 ? (
+          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {verfuegbare.map((gegenstand, index) => (
+              <li key={gegenstand.id}>
+                <GegenstandKarte gegenstand={gegenstand} erstes={index === 0} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="rounded-2xl border border-dashed border-border bg-card p-8 text-center text-muted">
+            Gerade ist nichts zum Ausleihen da. Schau bald wieder vorbei.
+          </p>
+        )}
       </section>
     </main>
   );
