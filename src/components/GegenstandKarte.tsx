@@ -5,29 +5,26 @@ import { preisText } from "@/lib/format";
 
 type Props = {
   gegenstand: Gegenstand;
-  /** Das erste sichtbare Bild wird vorab geladen. */
-  erstes?: boolean;
 };
 
-export default function GegenstandKarte({ gegenstand, erstes = false }: Props) {
+export default function GegenstandKarte({ gegenstand }: Props) {
   const { id, titel, kategorie, besitzer, ort, preisProTag, bild } = gegenstand;
 
   return (
-    <article className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm">
-      <div className="relative aspect-[4/3] bg-accent-soft">
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+      <div className="relative aspect-[4/3] overflow-hidden bg-accent-soft">
         {/* Der Titel steht direkt darunter, deshalb ist der Alt-Text leer. */}
         <Image
           src={bild}
           alt=""
           fill
           sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 100vw"
-          className="object-cover"
-          preload={erstes}
+          className="object-cover transition duration-500 group-hover:scale-105"
         />
       </div>
-      <div className="flex flex-1 flex-col gap-2 p-4">
+      <div className="flex flex-1 flex-col gap-2 p-5">
         <p className="text-sm text-muted">{kategorie}</p>
-        <h3 className="font-semibold leading-snug">
+        <h3 className="font-display text-lg font-bold leading-snug">
           {/* Der unsichtbare Bereich (after) macht die ganze Karte anklickbar. */}
           <Link
             href={`/gegenstaende/${id}`}
