@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useOptimistic, useState, useTransition } from "react";
+import { useEffect, useOptimistic, useState, useTransition } from "react";
 import { Hand } from "lucide-react";
 import { anfrageUmschalten } from "@/app/gegenstaende/[id]/actions";
+import { browserClient } from "@/lib/supabase/browser";
 
 type Props = {
   itemId: string;
@@ -20,11 +21,33 @@ const knopf =
 export default function AnfrageBereich({ itemId, anzahl, angefragt, angemeldet, eigener, verfuegbar }: Props) {
   const [laeuft, starte] = useTransition();
   const [meldung, setzeMeldung] = useState<string | null>(null);
+  // Der Zähler wird alle paar Sekunden neu gefragt, damit Anfragen anderer ohne Neuladen auftauchen.
+  const [liveAnzahl, setzeLiveAnzahl] = useState(anzahl);
+  const [serverAnzahl, setzeServerAnzahl] = useState(anzahl);
+  if (anzahl !== serverAnzahl) {
+    setzeServerAnzahl(anzahl);
+    setzeLiveAnzahl(anzahl);
+  }
   // Sofort umschalten; kommt vom Server etwas anderes zurück, springt es wieder zurück.
   const [stand, setzeStand] = useOptimistic(
-    { anzahl, angefragt },
+    { anzahl: liveAnzahl, angefragt },
     (_alt, neu: { anzahl: number; angefragt: boolean }) => neu,
   );
+
+  useEffect(() => {
+    if (!browserClient || laeuft) return;
+    let aktiv = true;
+    async function frage() {
+      if (document.hidden) return;
+      const { data, error } = await browserClient!.rpc("anfrage_anzahl", { p_item_id: itemId });
+      if (aktiv && !error && typeof data === "number") setzeLiveAnzahl(data);
+    }
+    const takt = setInterval(frage, 2000);
+    return () => {
+      aktiv = false;
+      clearInterval(takt);
+    };
+  }, [itemId, laeuft]);
 
   function klick() {
     const anfragen = !stand.angefragt;

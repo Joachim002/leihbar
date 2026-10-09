@@ -110,7 +110,7 @@
 
 ## Tag 2 — Übung 6: Gemeinsam (mit den Konten der anderen)
 
-### ⬜ Issue 10 — Zähler live
+### 🔧 Issue 10 — Zähler live
 **Ziel:** Der Zähler „Anfragen“ auf der Detailseite ändert sich ohne Neuladen, sobald jemand anderes anfragt oder zurückzieht – damit Besitzer*innen sofort sehen, dass jemand Interesse hat.
 **Nicht im Umfang:** Benachrichtigungen, Töne, Liste der Anfragenden.
 **Akzeptanzkriterien:**
