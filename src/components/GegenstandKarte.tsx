@@ -1,15 +1,18 @@
 import Link from "next/link";
 import type { Gegenstand } from "@/data/gegenstaende";
 import GegenstandBild from "@/components/GegenstandBild";
+import type { AnfrageStatus } from "@/lib/anfragen";
 import { preisText } from "@/lib/format";
 
 type Props = {
   gegenstand: Gegenstand;
   /** Ebene der Überschrift: unter einem h2 (Startseite) h3, direkt unter dem h1 h2. */
   ueberschrift?: "h2" | "h3";
+  /** Antwort auf die Anfrage der angemeldeten Person (nur auf „Meine Anfragen“). */
+  status?: AnfrageStatus;
 };
 
-export default function GegenstandKarte({ gegenstand, ueberschrift: Ueberschrift = "h3" }: Props) {
+export default function GegenstandKarte({ gegenstand, ueberschrift: Ueberschrift = "h3", status }: Props) {
   const { id, titel, kategorie, besitzer, ort, preisProTag, bild } = gegenstand;
 
   return (
@@ -25,6 +28,12 @@ export default function GegenstandKarte({ gegenstand, ueberschrift: Ueberschrift
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
         <p className="text-sm text-muted">{kategorie}</p>
+        {status && (
+          <p className="text-sm font-medium">
+            <span className="text-muted">Status: </span>
+            {status}
+          </p>
+        )}
         <Ueberschrift className="font-display text-lg font-bold leading-snug">
           {/* Der unsichtbare Bereich (after) macht die ganze Karte anklickbar. */}
           <Link

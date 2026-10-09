@@ -79,7 +79,7 @@ export default async function GegenstandSeite({
         </div>
       </article>
 
-      {anfrage.eigener && <AnfragendeListe anfragende={anfragende} />}
+      {anfrage.eigener && <AnfragendeListe itemId={gegenstand.id} anfragende={anfragende} />}
     </main>
   );
 }

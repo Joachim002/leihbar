@@ -18,13 +18,13 @@ export default async function MeineAnfragenSeite() {
       <h1 className="mb-6 font-display text-4xl font-extrabold tracking-tight">Meine Anfragen</h1>
       {anfragen && anfragen.length > 0 ? (
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {anfragen.map((gegenstand, index) => (
+          {anfragen.map(({ gegenstand, status }, index) => (
             <li
               key={gegenstand.id}
               className="erscheinen"
               style={reihenfolge(Math.min(index, 6))}
             >
-              <GegenstandKarte gegenstand={gegenstand} ueberschrift="h2" />
+              <GegenstandKarte gegenstand={gegenstand} ueberschrift="h2" status={status} />
             </li>
           ))}
         </ul>

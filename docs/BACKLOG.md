@@ -50,7 +50,7 @@
 
 ## Tag 2 — Übung 4: Login & Anfragen
 
-### 🔧 Issue 5 — Anmelden
+### ✅ Issue 5 — Anmelden
 **Ziel:** Studierende registrieren sich mit E-Mail und Passwort und melden sich an – damit die App weiß, wer sie sind.
 **Nicht im Umfang:** Login mit Google, Passwort vergessen, Profilseite.
 **Akzeptanzkriterien:**
@@ -60,7 +60,7 @@
 
 **Fertig, wenn:** ein Testkonto registriert, ab- und wieder angemeldet, einmal mit falschem Passwort versucht, `/meine-anfragen` ohne Login aufgerufen.
 
-### 🔧 Issue 6 — Ausleihen anfragen
+### ✅ Issue 6 — Ausleihen anfragen
 **Ziel:** Studierende fragen einen Gegenstand zum Ausleihen an und können die Anfrage zurückziehen – damit Besitzer*innen sehen, wer ihn haben möchte.
 **Nicht im Umfang:** Anfrage annehmen oder ablehnen, Zeitraum wählen, Bezahlung.
 **Akzeptanzkriterien:**
@@ -72,9 +72,9 @@
 
 **Fertig, wenn:** alle Kriterien im Browser durchgeklickt, Zähler stimmt auch nach einem Reload.
 
-### 🔧 Issue 7 — Meine Anfragen
+### ✅ Issue 7 — Meine Anfragen
 **Ziel:** Unter `/meine-anfragen` sehen Studierende, was sie angefragt haben – damit sie den Überblick behalten.
-**Nicht im Umfang:** Status der Anfrage, Erinnerungen.
+**Nicht im Umfang:** Erinnerungen. (Der Status der Anfrage kam später mit Issue 11.)
 **Akzeptanzkriterien:**
 - Gegeben ich habe 2 Gegenstände angefragt, dann sehe ich genau diese 2, die neueste Anfrage zuerst.
 - Gegeben ich habe nichts angefragt, dann sehe ich einen Hinweis mit Link zur Liste.
@@ -96,7 +96,7 @@
 
 ## Ergänzung (nach Issue 6) — Anfragen für Besitzer*innen
 
-### 🔧 Issue 9 — Wer hat angefragt?
+### ✅ Issue 9 — Wer hat angefragt?
 **Ziel:** Besitzer*innen sehen auf der Detailseite ihres Gegenstands, wer ihn angefragt hat und wie sie die Person erreichen (E-Mail-Adresse) – damit sie die Übergabe absprechen können.
 **Nicht im Umfang:** Anfrage annehmen oder ablehnen, Chat, Benachrichtigungen, Zeitraum.
 **Akzeptanzkriterien:**
@@ -110,7 +110,7 @@
 
 ## Tag 2 — Übung 6: Gemeinsam (mit den Konten der anderen)
 
-### 🔧 Issue 10 — Zähler live
+### ✅ Issue 10 — Zähler live
 **Ziel:** Der Zähler „Anfragen“ auf der Detailseite ändert sich ohne Neuladen, sobald jemand anderes anfragt oder zurückzieht – damit Besitzer*innen sofort sehen, dass jemand Interesse hat.
 **Nicht im Umfang:** Benachrichtigungen, Töne, Liste der Anfragenden.
 **Akzeptanzkriterien:**
@@ -121,7 +121,7 @@
 
 **Fertig, wenn:** die nächste Person in der Runde auf meiner Live-Adresse angefragt und zurückgezogen hat, während ich auf meinem Gerät zugesehen habe – einmal angemeldet, einmal abgemeldet.
 
-### ⬜ Issue 11 — Anfrage annehmen oder ablehnen
+### ✅ Issue 11 — Anfrage annehmen oder ablehnen
 **Ziel:** Besitzer*innen nehmen eine Anfrage an oder lehnen sie ab, und die anfragende Person sieht die Antwort – damit aus einer Anfrage eine Ausleihe wird.
 **Nicht im Umfang:** Zeitraum, Übergabe, Nachrichten, E-Mails; Beispiel-Gegenstände ohne Besitzer*in-Konto.
 **Akzeptanzkriterien:**

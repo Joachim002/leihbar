@@ -39,3 +39,33 @@ export async function anfrageUmschalten(itemId: string, anfragen: boolean): Prom
   revalidatePath(`/gegenstaende/${itemId}`);
   return { ok: true };
 }
+
+/** Als Besitzer*in eine Anfrage annehmen oder ablehnen. Die Datenbank erlaubt das nur für eigene Gegenstände. */
+export async function anfrageBeantworten(
+  anfrageId: string,
+  itemId: string,
+  status: "angenommen" | "abgelehnt",
+): Promise<AnfrageErgebnis> {
+  if (!supabaseKonfiguriert) {
+    return { ok: false, meldung: "Antworten ist noch nicht eingerichtet. Es fehlen die Supabase-Zugangsdaten." };
+  }
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getClaims();
+  if (!auth?.claims?.sub) {
+    return { ok: false, meldung: "Du bist nicht mehr angemeldet. Bitte melde dich an und versuch es noch einmal." };
+  }
+
+  const { data, error } = await supabase
+    .from("requests")
+    .update({ status })
+    .eq("id", anfrageId)
+    .eq("item_id", itemId)
+    .select("id");
+  if (error || !data || data.length === 0) {
+    return { ok: false, meldung: "Das hat leider nicht geklappt. Bitte versuch es gleich noch einmal." };
+  }
+
+  revalidatePath(`/gegenstaende/${itemId}`);
+  revalidatePath("/meine-anfragen");
+  return { ok: true };
+}

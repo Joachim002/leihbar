@@ -44,8 +44,12 @@ export async function holeAnfrageStand(itemId: string): Promise<AnfrageStand> {
   };
 }
 
-/** Die Gegenstände, die die angemeldete Person angefragt hat, neueste Anfrage zuerst. `null`, wenn die Datenbank nicht antwortet. */
-export async function holeMeineAnfragen(): Promise<Gegenstand[] | null> {
+export type AnfrageStatus = "offen" | "angenommen" | "abgelehnt";
+
+export type MeineAnfrage = { gegenstand: Gegenstand; status: AnfrageStatus };
+
+/** Die Gegenstände, die die angemeldete Person angefragt hat, mit Status, neueste Anfrage zuerst. `null`, wenn die Datenbank nicht antwortet. */
+export async function holeMeineAnfragen(): Promise<MeineAnfrage[] | null> {
   if (!supabaseKonfiguriert) return null;
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getClaims();
@@ -54,7 +58,7 @@ export async function holeMeineAnfragen(): Promise<Gegenstand[] | null> {
 
   const { data: anfragen, error } = await supabase
     .from("requests")
-    .select("item_id")
+    .select("item_id, status")
     .eq("user_id", userId)
     .order("created_at", { ascending: false });
   if (error) return null;
@@ -62,12 +66,13 @@ export async function holeMeineAnfragen(): Promise<Gegenstand[] | null> {
   const gegenstaende = await holeGegenstaende(anfragen.map((anfrage) => anfrage.item_id));
   if (gegenstaende === null) return null;
   // Reihenfolge der Anfragen beibehalten; Gegenstände, die es nicht mehr gibt, entfallen.
-  return anfragen
-    .map((anfrage) => gegenstaende.find((gegenstand) => gegenstand.id === anfrage.item_id))
-    .filter((gegenstand): gegenstand is Gegenstand => gegenstand !== undefined);
+  return anfragen.flatMap((anfrage) => {
+    const gegenstand = gegenstaende.find((g) => g.id === anfrage.item_id);
+    return gegenstand ? [{ gegenstand, status: anfrage.status as AnfrageStatus }] : [];
+  });
 }
 
-export type Anfragende = { email: string; angefragtAm: string };
+export type Anfragende = { id: string; email: string; angefragtAm: string; status: AnfrageStatus };
 
 /** Wer den Gegenstand angefragt hat, neueste zuerst. Nur Besitzer*innen bekommen Adressen; sonst und bei Fehlern `null`. */
 export async function holeAnfragende(itemId: string): Promise<Anfragende[] | null> {
@@ -75,8 +80,10 @@ export async function holeAnfragende(itemId: string): Promise<Anfragende[] | nul
   const supabase = await createClient();
   const { data, error } = await supabase.rpc("anfragende_emails", { p_item_id: itemId });
   if (error) return null;
-  return (data ?? []).map((zeile: { email: string; angefragt_am: string }) => ({
+  return (data ?? []).map((zeile: { id: string; email: string; angefragt_am: string; status: AnfrageStatus }) => ({
+    id: zeile.id,
     email: zeile.email,
     angefragtAm: zeile.angefragt_am,
+    status: zeile.status,
   }));
 }
