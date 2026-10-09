@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
-/* Richtung „Auktionskatalog“: Steingrau wie Katalogpapier, schwarze Schrift, Ochsenblut für Losnummern. */
+/* Richtung „Waldkatalog“: Nebel, Moos und Tannengrün; die Lose wie in einem Katalog. */
 :root {
-  --background: #e4e4e1; /* Steingrau */
-  --foreground: #000000;
-  --accent: #6b1e24; /* Ochsenblut */
-  --accent-ink: #ffffff; /* Schrift auf Ochsenblut */
-  --accent-soft: #d6d6d1; /* Flächen für Hinweise und Hover */
-  --muted: #55554f; /* Nebentext */
-  --card: #f2f2f0; /* Eingabefelder und Kästen */
-  --border: #74746e;
+  --background: #e9efe6; /* Nebel über der Wiese */
+  --foreground: #0f2a1d; /* Tannengrün, fast schwarz */
+  --accent: #2e5e3e; /* Tanne */
+  --accent-ink: #ffffff; /* Schrift auf Tanne */
+  --accent-soft: #d3dfd0; /* Moos, hell: Flächen für Hinweise und Hover */
+  --muted: #4a5d50; /* Nebentext */
+  --card: #f4f8f2; /* Eingabefelder und Kästen */
+  --border: #6e8273;
   --error: #9e1b24;
 }
 

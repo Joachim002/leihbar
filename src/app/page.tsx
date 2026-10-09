@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Waldrand from "@/components/Waldrand";
 import KategorieFilter from "@/components/KategorieFilter";
 import Katalog from "@/components/Katalog";
 import { kategorien } from "@/data/gegenstaende";
@@ -37,6 +38,8 @@ export default async function Home({ searchParams }: PageProps<"/">) {
           </a>
         </div>
       </section>
+
+      <Waldrand kennung="wald-start" className="mb-12 block" />
 
       <section id="gegenstaende" aria-labelledby="gegenstaende-titel" className="scroll-mt-4">
         <h2 id="gegenstaende-titel" className="mb-6 font-display text-4xl sm:text-5xl">

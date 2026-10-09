@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TreePine } from "lucide-react";
 import { abmelden } from "@/app/anmelden/actions";
 import { holeEmail } from "@/lib/supabase/server";
 
@@ -8,7 +9,8 @@ export default async function Header() {
   return (
     <header className="border-b border-foreground bg-background">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-3 sm:gap-4">
-        <Link href="/" className="flex min-h-11 items-center gap-2 font-display text-2xl">
+        <Link href="/" className="flex min-h-11 items-center gap-1.5 font-display text-xl sm:text-2xl">
+          <TreePine size={20} strokeWidth={1.75} className="text-accent" aria-hidden="true" />
           Leihbar
         </Link>
         <nav aria-label="Hauptnavigation" className="flex items-center gap-2 text-sm text-muted sm:gap-4 sm:text-base">
