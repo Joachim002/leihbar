@@ -45,3 +45,6 @@ next-env.d.ts
 
 # Arbeitskopien paralleler Claude-Sessions (claude -w)
 /.claude/worktrees/
+
+# Browser-Protokolle vom Playwright-Testwerkzeug
+.playwright-mcp/
