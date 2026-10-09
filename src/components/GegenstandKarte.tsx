@@ -5,9 +5,11 @@ import { preisText } from "@/lib/format";
 
 type Props = {
   gegenstand: Gegenstand;
+  /** Ebene der Überschrift: unter einem h2 (Startseite) h3, direkt unter dem h1 h2. */
+  ueberschrift?: "h2" | "h3";
 };
 
-export default function GegenstandKarte({ gegenstand }: Props) {
+export default function GegenstandKarte({ gegenstand, ueberschrift: Ueberschrift = "h3" }: Props) {
   const { id, titel, kategorie, besitzer, ort, preisProTag, bild } = gegenstand;
 
   return (
@@ -23,7 +25,7 @@ export default function GegenstandKarte({ gegenstand }: Props) {
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">
         <p className="text-sm text-muted">{kategorie}</p>
-        <h3 className="font-display text-lg font-bold leading-snug">
+        <Ueberschrift className="font-display text-lg font-bold leading-snug">
           {/* Der unsichtbare Bereich (after) macht die ganze Karte anklickbar. */}
           <Link
             href={`/gegenstaende/${id}`}
@@ -31,7 +33,7 @@ export default function GegenstandKarte({ gegenstand }: Props) {
           >
             {titel}
           </Link>
-        </h3>
+        </Ueberschrift>
         <p className="font-medium">{preisText(preisProTag)}</p>
         <dl className="mt-auto space-y-1 pt-2 text-sm text-muted">
           <div className="flex gap-1">

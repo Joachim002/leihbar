@@ -1,4 +1,6 @@
 // Anfragen aus der Supabase-Tabelle `requests` lesen.
+import type { Gegenstand } from "@/data/gegenstaende";
+import { holeGegenstaende } from "@/lib/gegenstaende";
 import { createClient, supabaseKonfiguriert } from "@/lib/supabase/server";
 
 export type AnfrageStand = {
@@ -39,4 +41,27 @@ export async function holeAnfrageStand(itemId: string): Promise<AnfrageStand> {
     angemeldet: true,
     eigener: gegenstand?.owner_id === userId,
   };
+}
+
+/** Die Gegenstände, die die angemeldete Person angefragt hat, neueste Anfrage zuerst. `null`, wenn die Datenbank nicht antwortet. */
+export async function holeMeineAnfragen(): Promise<Gegenstand[] | null> {
+  if (!supabaseKonfiguriert) return null;
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getClaims();
+  const userId = auth?.claims?.sub;
+  if (!userId) return [];
+
+  const { data: anfragen, error } = await supabase
+    .from("requests")
+    .select("item_id")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  if (error) return null;
+
+  const gegenstaende = await holeGegenstaende(anfragen.map((anfrage) => anfrage.item_id));
+  if (gegenstaende === null) return null;
+  // Reihenfolge der Anfragen beibehalten; Gegenstände, die es nicht mehr gibt, entfallen.
+  return anfragen
+    .map((anfrage) => gegenstaende.find((gegenstand) => gegenstand.id === anfrage.item_id))
+    .filter((gegenstand): gegenstand is Gegenstand => gegenstand !== undefined);
 }

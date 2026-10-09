@@ -42,6 +42,16 @@ export async function holeVerfuegbareGegenstaende(): Promise<Gegenstand[] | null
   return data.map(ausZeile);
 }
 
+/** Mehrere Gegenstände anhand ihrer IDs (Reihenfolge nicht garantiert). `null`, wenn die Datenbank nicht antwortet. */
+export async function holeGegenstaende(ids: string[]): Promise<Gegenstand[] | null> {
+  if (!supabaseKonfiguriert) return null;
+  if (ids.length === 0) return [];
+  const supabase = await createClient();
+  const { data, error } = await supabase.from("items").select("*").in("id", ids);
+  if (error) return null;
+  return data.map(ausZeile);
+}
+
 const uuidMuster = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /** Ein Gegenstand anhand seiner Adresse; `undefined`, wenn es ihn nicht gibt. */
