@@ -11,7 +11,7 @@ type Props = {
 };
 
 const knopf =
-  "inline-flex min-h-11 items-center justify-center rounded-full px-5 font-medium transition hover:opacity-90 disabled:opacity-70";
+  "inline-flex min-h-11 items-center justify-center px-5 font-medium transition hover:opacity-90 disabled:opacity-70";
 
 export default function AnfragendeListe({ itemId, anfragende }: Props) {
   const [laeuft, starte] = useTransition();
@@ -26,7 +26,7 @@ export default function AnfragendeListe({ itemId, anfragende }: Props) {
   }
 
   return (
-    <section aria-labelledby="anfragende-titel" className="mt-10 rounded-3xl border border-border bg-card p-5 sm:p-6">
+    <section aria-labelledby="anfragende-titel" className="mt-10 border border-border bg-card p-5 sm:p-6">
       <h2 id="anfragende-titel" className="mb-3 font-display text-2xl font-bold">
         Angefragt von:
       </h2>
@@ -52,7 +52,7 @@ export default function AnfragendeListe({ itemId, anfragende }: Props) {
                     type="button"
                     disabled={laeuft}
                     onClick={() => antworte(person.id, "angenommen")}
-                    className={`${knopf} bg-accent text-white`}
+                    className={`${knopf} bg-accent text-accent-ink`}
                   >
                     Annehmen
                   </button>

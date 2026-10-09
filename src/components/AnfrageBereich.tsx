@@ -16,7 +16,7 @@ type Props = {
 };
 
 const knopf =
-  "inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-6 font-medium shadow-sm transition sm:w-auto";
+  "inline-flex min-h-11 w-full items-center justify-center gap-2 px-6 font-medium transition sm:w-auto";
 
 export default function AnfrageBereich({ itemId, anzahl, angefragt, angemeldet, eigener, verfuegbar }: Props) {
   const [laeuft, starte] = useTransition();
@@ -61,16 +61,16 @@ export default function AnfrageBereich({ itemId, anzahl, angefragt, angemeldet, 
 
   let aktion;
   if (eigener) {
-    aktion = <p className="rounded-xl bg-accent-soft px-4 py-3">Das ist dein Gegenstand. Wer ihn angefragt hat, siehst du weiter unten.</p>;
+    aktion = <p className="bg-accent-soft px-4 py-3">Das ist dein Gegenstand. Wer ihn angefragt hat, siehst du weiter unten.</p>;
   } else if (!angemeldet) {
     aktion = (
-      <Link href="/anmelden" className={`${knopf} bg-accent text-white hover:opacity-90`}>
+      <Link href="/anmelden" className={`${knopf} bg-accent text-accent-ink hover:opacity-90`}>
         <Hand size={20} strokeWidth={1.75} aria-hidden="true" />
         Ausleihen anfragen
       </Link>
     );
   } else if (!verfuegbar && !stand.angefragt) {
-    aktion = <p className="rounded-xl bg-accent-soft px-4 py-3">Anfragen geht erst wieder, wenn der Gegenstand zurück ist.</p>;
+    aktion = <p className="bg-accent-soft px-4 py-3">Anfragen geht erst wieder, wenn der Gegenstand zurück ist.</p>;
   } else {
     aktion = (
       <button
@@ -81,7 +81,7 @@ export default function AnfrageBereich({ itemId, anzahl, angefragt, angemeldet, 
         className={`${knopf} disabled:opacity-70 ${
           stand.angefragt
             ? "border border-border bg-accent-soft hover:opacity-90"
-            : "bg-accent text-white hover:opacity-90"
+            : "bg-accent text-accent-ink hover:opacity-90"
         }`}
       >
         {!stand.angefragt && <Hand size={20} strokeWidth={1.75} aria-hidden="true" />}

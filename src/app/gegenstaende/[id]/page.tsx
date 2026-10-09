@@ -43,7 +43,7 @@ export default async function GegenstandSeite({
       </Link>
 
       <article className="grid gap-6 md:grid-cols-2 md:gap-10">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-accent-soft">
+        <div className="relative aspect-[4/3] overflow-hidden border border-border bg-accent-soft">
           <GegenstandBild
             bild={bild}
             alt={titel}
@@ -54,10 +54,10 @@ export default async function GegenstandSeite({
 
         <div className="flex flex-col gap-4">
           <p className="text-sm text-muted">{kategorie}</p>
-          <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight">{titel}</h1>
+          <h1 className="font-display text-4xl leading-none">{titel}</h1>
           <p className="text-xl font-medium">{preisText(preisProTag)}</p>
           {!verfuegbar && (
-            <p className="rounded-xl bg-accent-soft px-4 py-3">
+            <p className="bg-accent-soft px-4 py-3">
               Dieser Gegenstand ist gerade verliehen.
             </p>
           )}

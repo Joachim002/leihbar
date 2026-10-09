@@ -5,7 +5,7 @@ import { Sparkles } from "lucide-react";
 import { kategorien } from "@/data/gegenstaende";
 import { gegenstandAnbieten, type AnbietenZustand, type Feld } from "./actions";
 
-const feld = "min-h-11 w-full rounded-xl border bg-card px-4 text-base";
+const feld = "min-h-11 w-full border bg-card px-4 text-base";
 
 export default function AnbietenFormular() {
   const [zustand, aktion, laeuft] = useActionState<AnbietenZustand, FormData>(
@@ -123,7 +123,7 @@ export default function AnbietenFormular() {
             type="button"
             onClick={beschreibungVorschlagen}
             disabled={!titelText.trim() || vorschlagLaeuft}
-            className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-card px-4 font-medium transition hover:bg-accent-soft disabled:opacity-60"
+            className="inline-flex min-h-11 items-center gap-2 border border-border bg-card px-4 font-medium transition hover:bg-accent-soft disabled:opacity-60"
           >
             <Sparkles size={20} strokeWidth={1.75} aria-hidden="true" />
             {vorschlagLaeuft ? "Vorschlag wird geschrieben …" : "Beschreibung vorschlagen"}
@@ -180,7 +180,7 @@ export default function AnbietenFormular() {
       </div>
 
       {zustand?.meldung && (
-        <p role="alert" className="rounded-xl border border-error px-4 py-3 font-medium text-error">
+        <p role="alert" className="border border-error px-4 py-3 font-medium text-error">
           {zustand.meldung}
         </p>
       )}
@@ -189,7 +189,7 @@ export default function AnbietenFormular() {
         <button
           type="submit"
           disabled={laeuft}
-          className="min-h-11 rounded-xl bg-accent px-6 font-medium text-white shadow-sm transition hover:opacity-90 disabled:opacity-60"
+          className="min-h-11 bg-accent px-6 font-medium text-accent-ink transition hover:opacity-90 disabled:opacity-60"
         >
           {laeuft ? "Wird gespeichert …" : "Anbieten"}
         </button>

@@ -4,9 +4,9 @@ import { useActionState } from "react";
 import { anmeldenOderRegistrieren, type FormZustand } from "./actions";
 
 const feld =
-  "min-h-11 w-full rounded-xl border border-border bg-card px-4 text-base";
+  "min-h-11 w-full border border-border bg-card px-4 text-base";
 const knopf =
-  "min-h-11 rounded-xl px-5 font-medium transition disabled:opacity-60";
+  "min-h-11 px-5 font-medium transition disabled:opacity-60";
 
 export default function AnmeldeFormular() {
   const [zustand, aktion, laeuft] = useActionState<FormZustand, FormData>(
@@ -49,7 +49,7 @@ export default function AnmeldeFormular() {
       {zustand && (
         <p
           role={zustand.erfolg ? "status" : "alert"}
-          className={`rounded-xl px-4 py-3 ${
+          className={`px-4 py-3 ${
             zustand.erfolg ? "bg-accent-soft" : "border border-accent"
           }`}
         >
@@ -63,7 +63,7 @@ export default function AnmeldeFormular() {
           name="aktion"
           value="anmelden"
           disabled={laeuft}
-          className={`${knopf} bg-accent text-white shadow-sm hover:opacity-90`}
+          className={`${knopf} bg-accent text-accent-ink hover:opacity-90`}
         >
           Anmelden
         </button>
