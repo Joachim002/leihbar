@@ -42,8 +42,8 @@ export default async function GegenstandSeite({
         Zurück zur Liste
       </Link>
 
-      <article className="grid gap-6 md:grid-cols-2 md:gap-10">
-        <div className="relative aspect-[4/3] overflow-hidden border border-border bg-accent-soft">
+      <article className="grid gap-6 md:grid-cols-2 md:gap-14">
+        <div className="relative aspect-[4/5] overflow-hidden bg-accent-soft">
           <GegenstandBild
             bild={bild}
             alt={titel}
@@ -52,9 +52,9 @@ export default async function GegenstandSeite({
           />
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex min-w-0 flex-col gap-4">
           <p className="text-sm text-muted">{kategorie}</p>
-          <h1 className="font-display text-4xl leading-none">{titel}</h1>
+          <h1 className="font-display text-4xl leading-tight hyphens-auto sm:text-5xl">{titel}</h1>
           <p className="text-xl font-medium">{preisText(preisProTag)}</p>
           {!verfuegbar && (
             <p className="bg-accent-soft px-4 py-3">

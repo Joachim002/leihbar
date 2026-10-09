@@ -26,8 +26,8 @@ export default function AnfragendeListe({ itemId, anfragende }: Props) {
   }
 
   return (
-    <section aria-labelledby="anfragende-titel" className="mt-10 border border-border bg-card p-5 sm:p-6">
-      <h2 id="anfragende-titel" className="mb-3 font-display text-2xl font-bold">
+    <section aria-labelledby="anfragende-titel" className="mt-16 border-t border-foreground pt-6">
+      <h2 id="anfragende-titel" className="mb-3 font-display text-3xl">
         Angefragt von:
       </h2>
       {anfragende === null ? (

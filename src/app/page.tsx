@@ -1,6 +1,6 @@
 import Link from "next/link";
 import KategorieFilter from "@/components/KategorieFilter";
-import Standplan from "@/components/Standplan";
+import Katalog from "@/components/Katalog";
 import { kategorien } from "@/data/gegenstaende";
 import { holeVerfuegbareGegenstaende } from "@/lib/gegenstaende";
 
@@ -13,25 +13,25 @@ export default async function Home({ searchParams }: PageProps<"/">) {
   const verfuegbare = (alle ?? []).filter((gegenstand) => !aktiv || gegenstand.kategorie === aktiv);
 
   return (
-    <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-12 pt-8">
-      <section aria-labelledby="titel" className="mb-8 max-w-2xl">
-        <h1 id="titel" className="mb-4 font-display text-[52px] leading-[0.95] sm:text-7xl">
+    <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-12 pt-12">
+      <section aria-labelledby="titel" className="mb-16 max-w-2xl">
+        <h1 id="titel" className="mb-5 font-display text-[44px] leading-[1.05] sm:text-7xl">
           Leihen statt kaufen.
         </h1>
-        <p className="mb-5 max-w-prose text-lg leading-snug">
+        <p className="mb-8 max-w-prose text-lg leading-relaxed text-muted">
           Abendkleid für den Ball, Akkuschrauber fürs WG-Regal, Zelt fürs Festival: Am Campus
           hat es schon jemand. Anbieten, finden, anfragen.
         </p>
-        <div className="absperrband flex flex-wrap gap-3 p-3">
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-3">
           <Link
             href="/anbieten"
-            className="inline-flex min-h-11 items-center bg-foreground px-5 font-bold text-accent-ink transition hover:bg-accent-soft hover:text-foreground"
+            className="inline-flex min-h-11 items-center bg-accent px-6 font-medium text-accent-ink transition hover:opacity-90"
           >
             Gegenstand anbieten
           </Link>
           <a
             href="#gegenstaende"
-            className="inline-flex min-h-11 items-center bg-background px-5 font-bold transition hover:bg-accent-soft"
+            className="inline-flex min-h-11 items-center font-medium underline underline-offset-4 hover:text-accent"
           >
             Gegenstände ansehen
           </a>
@@ -39,14 +39,14 @@ export default async function Home({ searchParams }: PageProps<"/">) {
       </section>
 
       <section id="gegenstaende" aria-labelledby="gegenstaende-titel" className="scroll-mt-4">
-        <h2 id="gegenstaende-titel" className="mb-4 font-display text-3xl sm:text-4xl">
+        <h2 id="gegenstaende-titel" className="mb-6 font-display text-4xl sm:text-5xl">
           Das kannst du ausleihen
         </h2>
         <KategorieFilter aktiv={aktiv} />
         {verfuegbare.length > 0 ? (
-          <Standplan ueberschrift="h3" eintraege={verfuegbare.map((gegenstand) => ({ gegenstand }))} />
+          <Katalog ueberschrift="h3" eintraege={verfuegbare.map((gegenstand) => ({ gegenstand }))} />
         ) : (
-          <p className="border-2 border-2 border-dashed border-border bg-card p-8 text-center text-muted">
+          <p className="border-y border-foreground py-10 text-center text-muted">
             {alle === null
               ? "Die Gegenstände lassen sich gerade nicht laden. Bitte versuch es gleich noch einmal."
               : aktiv

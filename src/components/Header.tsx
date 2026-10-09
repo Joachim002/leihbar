@@ -6,10 +6,9 @@ export default async function Header() {
   const email = await holeEmail();
 
   return (
-    <header className="border-b-2 border-foreground bg-background">
+    <header className="border-b border-foreground bg-background">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-2 px-4 py-3 sm:gap-4">
-        <Link href="/" className="flex min-h-11 items-center gap-2 font-display text-xl sm:text-2xl">
-          <span aria-hidden="true" className="inline-block h-4 w-4 bg-accent" />
+        <Link href="/" className="flex min-h-11 items-center gap-2 font-display text-2xl">
           Leihbar
         </Link>
         <nav aria-label="Hauptnavigation" className="flex items-center gap-2 text-sm text-muted sm:gap-4 sm:text-base">

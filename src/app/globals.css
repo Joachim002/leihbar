@@ -1,16 +1,16 @@
 @import "tailwindcss";
 
-/* Richtung „Standplan“: der Flohmarkt von oben – Asphalt, Linien in Lackweiß, Absperrband-Orange. */
+/* Richtung „Auktionskatalog“: Steingrau wie Katalogpapier, schwarze Schrift, Ochsenblut für Losnummern. */
 :root {
-  --background: #2c2f33; /* Asphalt */
-  --foreground: #f1f0ea; /* Lackweiß: Text und Linien */
-  --accent: #ff6b1a; /* Absperr-Orange */
-  --accent-ink: #1e2023; /* Schrift auf Orange (weiß wäre zu schwach) */
-  --accent-soft: #454a50; /* Flächen für Hinweise und Hover */
-  --muted: #b4b8bd; /* Kiesgrau: Nebentext */
-  --card: #383c41; /* etwas hellerer Asphalt für Felder und Kästen */
-  --border: #7c828a;
-  --error: #ff9b90;
+  --background: #e4e4e1; /* Steingrau */
+  --foreground: #000000;
+  --accent: #6b1e24; /* Ochsenblut */
+  --accent-ink: #ffffff; /* Schrift auf Ochsenblut */
+  --accent-soft: #d6d6d1; /* Flächen für Hinweise und Hover */
+  --muted: #55554f; /* Nebentext */
+  --card: #f2f2f0; /* Eingabefelder und Kästen */
+  --border: #74746e;
+  --error: #9e1b24;
 }
 
 @theme inline {
@@ -24,8 +24,8 @@
   --color-border: var(--border);
   --color-error: var(--error);
   /* Schriften kommen aus layout.tsx (next/font), die Namen danach sind nur der Notfall. */
-  --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-saira-stencil), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bodoni), ui-serif, Georgia, serif;
 }
 
 body {
@@ -34,24 +34,15 @@ body {
   font-family: var(--font-sans);
 }
 
-/* Überschriften, Standnummern und Logo immer im kräftigen Stencil-Schnitt. */
+/* Titel, Losnummern und Logo: Bodoni im normalen Schnitt – der Kontrast der Striche macht die Wirkung, nicht Fettdruck. */
 .font-display {
-  font-weight: 800;
+  font-weight: 400;
 }
 
 /* Sichtbarer Rahmen für alle, die mit der Tastatur navigieren. Nicht entfernen, nur ersetzen. */
 :focus-visible {
-  outline: 3px solid var(--foreground);
-  outline-offset: 2px;
-}
-
-/* Absperrband: diagonale Streifen in Orange und Asphalt. */
-.absperrband {
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--accent) 0 14px,
-    var(--accent-ink) 14px 28px
-  );
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* Wer in den Systemeinstellungen „Bewegung reduzieren“ gewählt hat, bekommt keine Animationen. */

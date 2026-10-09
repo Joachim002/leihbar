@@ -6,9 +6,9 @@ type Props = {
   aktiv: Kategorie | null;
 };
 
-const basis = "inline-flex min-h-11 items-center border-2 px-4 font-semibold transition";
-const aktivKlasse = "border-accent bg-accent text-accent-ink";
-const inaktivKlasse = "border-foreground hover:bg-accent-soft";
+const basis = "inline-flex min-h-11 items-center border-b-2 transition";
+const aktivKlasse = "border-accent text-foreground";
+const inaktivKlasse = "border-transparent text-muted hover:text-foreground";
 
 function href(kategorie: Kategorie | null) {
   if (!kategorie) return "/#gegenstaende";
@@ -17,8 +17,8 @@ function href(kategorie: Kategorie | null) {
 
 export default function KategorieFilter({ aktiv }: Props) {
   return (
-    <nav aria-label="Nach Kategorie filtern" className="mb-4">
-      <ul className="flex flex-wrap gap-2">
+    <nav aria-label="Nach Kategorie filtern" className="mb-10">
+      <ul className="flex flex-wrap gap-x-6">
         <li>
           <Link
             href={href(null)}

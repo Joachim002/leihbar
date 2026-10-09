@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Standplan from "@/components/Standplan";
+import Katalog from "@/components/Katalog";
 import { holeMeineAnfragen } from "@/lib/anfragen";
 
 export const metadata: Metadata = { title: "Meine Anfragen" };
@@ -13,12 +13,12 @@ export default async function MeineAnfragenSeite() {
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-12">
       <h1 className="mb-6 font-display text-4xl">Meine Anfragen</h1>
       {anfragen && anfragen.length > 0 ? (
-        <Standplan
+        <Katalog
           ueberschrift="h2"
           eintraege={anfragen.map(({ gegenstand, status }) => ({ gegenstand, status }))}
         />
       ) : (
-        <div className="border-2 border-dashed border-border bg-card p-8 text-center">
+        <div className="border-y border-foreground py-10 text-center">
           <p className="mb-5 text-muted">
             {anfragen === null
               ? "Deine Anfragen lassen sich gerade nicht laden. Bitte versuch es gleich noch einmal."
