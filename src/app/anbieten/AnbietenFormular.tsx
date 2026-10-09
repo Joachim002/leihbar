@@ -1,6 +1,7 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useRef, useState } from "react";
+import { Sparkles } from "lucide-react";
 import { kategorien } from "@/data/gegenstaende";
 import { gegenstandAnbieten, type AnbietenZustand, type Feld } from "./actions";
 
@@ -12,6 +13,39 @@ export default function AnbietenFormular() {
     null,
   );
   const eingaben = zustand?.eingaben;
+  const formular = useRef<HTMLFormElement>(null);
+  const beschreibungFeld = useRef<HTMLTextAreaElement>(null);
+  const [titelText, setzeTitelText] = useState(eingaben?.titel ?? "");
+  const [vorschlagLaeuft, setzeVorschlagLaeuft] = useState(false);
+  const [vorschlagMeldung, setzeVorschlagMeldung] = useState<string | null>(null);
+
+  async function beschreibungVorschlagen() {
+    if (!formular.current) return;
+    const daten = new FormData(formular.current);
+    setzeVorschlagLaeuft(true);
+    setzeVorschlagMeldung(null);
+    try {
+      const antwort = await fetch("/api/beschreibung", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          titel: daten.get("titel"),
+          kategorie: daten.get("kategorie"),
+          ort: daten.get("ort"),
+        }),
+      });
+      const ergebnis = await antwort.json().catch(() => null);
+      if (antwort.ok && ergebnis?.beschreibung && beschreibungFeld.current) {
+        beschreibungFeld.current.value = ergebnis.beschreibung;
+      } else {
+        setzeVorschlagMeldung(ergebnis?.meldung ?? "Der Vorschlag hat gerade nicht geklappt. Versuch es gleich noch einmal.");
+      }
+    } catch {
+      setzeVorschlagMeldung("Der Vorschlag hat gerade nicht geklappt. Versuch es gleich noch einmal.");
+    } finally {
+      setzeVorschlagLaeuft(false);
+    }
+  }
 
   /** Rahmen und Vorlese-Hinweise eines Feldes; bei Fehler roter Rahmen und die Meldung darunter. */
   const eigenschaften = (name: Feld, hinweisId?: string) => {
@@ -34,7 +68,7 @@ export default function AnbietenFormular() {
 
   return (
     // noValidate: Die Prüfung läuft auf dem Server und erklärt Fehler in ganzen Sätzen.
-    <form action={aktion} noValidate className="flex max-w-xl flex-col gap-4">
+    <form ref={formular} action={aktion} noValidate className="flex max-w-xl flex-col gap-4">
       <div className="flex flex-col gap-1">
         <label htmlFor="titel" className="font-medium">
           Titel
@@ -44,6 +78,7 @@ export default function AnbietenFormular() {
           type="text"
           maxLength={100}
           defaultValue={eingaben?.titel}
+          onChange={(ereignis) => setzeTitelText(ereignis.target.value)}
         />
         {fehlerText("titel")}
       </div>
@@ -76,12 +111,29 @@ export default function AnbietenFormular() {
         </label>
         <textarea
           {...eigenschaften("beschreibung")}
+          ref={beschreibungFeld}
           rows={4}
           maxLength={1000}
           defaultValue={eingaben?.beschreibung}
           className={`${eigenschaften("beschreibung").className} py-3`}
         />
         {fehlerText("beschreibung")}
+        <div className="flex flex-col items-start gap-2">
+          <button
+            type="button"
+            onClick={beschreibungVorschlagen}
+            disabled={!titelText.trim() || vorschlagLaeuft}
+            className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-card px-4 font-medium transition hover:bg-accent-soft disabled:opacity-60"
+          >
+            <Sparkles size={20} strokeWidth={1.75} aria-hidden="true" />
+            {vorschlagLaeuft ? "Vorschlag wird geschrieben …" : "Beschreibung vorschlagen"}
+          </button>
+          {vorschlagMeldung && (
+            <p role="alert" className="text-sm font-medium text-error">
+              {vorschlagMeldung}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="flex flex-col gap-1">

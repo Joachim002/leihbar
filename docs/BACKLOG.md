@@ -83,7 +83,7 @@
 
 ## Optional (Tag 2, wer schnell ist) — KI als Feature
 
-### ⬜ Issue 8 — Beschreibung vorschlagen lassen
+### 🔧 Issue 8 — Beschreibung vorschlagen lassen
 **Ziel:** Besitzer*innen lassen sich aus Titel, Kategorie und Ort eine Beschreibung vorschlagen – damit sie Gegenstände schneller anbieten.
 **Nicht im Umfang:** Bilder generieren, Übersetzungen, automatisches Speichern des Vorschlags.
 **Akzeptanzkriterien:**
