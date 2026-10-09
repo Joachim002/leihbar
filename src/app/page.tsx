@@ -1,10 +1,12 @@
 import type { CSSProperties } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Hand, Recycle, Search } from "lucide-react";
 import FeatureCard from "@/components/FeatureCard";
 import GegenstandKarte from "@/components/GegenstandKarte";
 import KategorieFilter from "@/components/KategorieFilter";
-import { gegenstaende, kategorien } from "@/data/gegenstaende";
+import { kategorien } from "@/data/gegenstaende";
+import { holeVerfuegbareGegenstaende } from "@/lib/gegenstaende";
 
 /** Position in der Einblend-Reihenfolge (siehe `.erscheinen` in globals.css). */
 const reihenfolge = (nummer: number) => ({ "--i": nummer }) as CSSProperties;
@@ -14,9 +16,8 @@ export default async function Home({ searchParams }: PageProps<"/">) {
   // Unbekannte oder doppelte Werte in der Adresse zählen wie „Alle“.
   const aktiv = kategorien.find((kategorie) => kategorie === gewaehlt) ?? null;
 
-  const verfuegbare = gegenstaende.filter(
-    (gegenstand) => gegenstand.verfuegbar && (!aktiv || gegenstand.kategorie === aktiv),
-  );
+  const alle = await holeVerfuegbareGegenstaende();
+  const verfuegbare = (alle ?? []).filter((gegenstand) => !aktiv || gegenstand.kategorie === aktiv);
 
   return (
     <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 pb-12 pt-4 sm:block">
@@ -50,9 +51,12 @@ export default async function Home({ searchParams }: PageProps<"/">) {
           >
             Gegenstände ansehen
           </a>
-          <span className="inline-flex min-h-11 items-center rounded-full border border-border bg-card px-6 text-muted">
-            Anbieten – kommt an Tag 2
-          </span>
+          <Link
+            href="/anbieten"
+            className="inline-flex min-h-11 items-center rounded-full border border-border bg-card px-6 font-medium transition hover:bg-accent-soft"
+          >
+            Gegenstand anbieten
+          </Link>
         </div>
 
         {/* Dekorative Fotos: der Titel der Gegenstände steht weiter unten, deshalb leerer Alt-Text. */}
@@ -140,9 +144,11 @@ export default async function Home({ searchParams }: PageProps<"/">) {
           </ul>
         ) : (
           <p className="rounded-3xl border border-dashed border-border bg-card p-8 text-center text-muted">
-            {aktiv
+            {alle === null
+              ? "Die Gegenstände lassen sich gerade nicht laden. Bitte versuch es gleich noch einmal."
+              : aktiv
               ? `In der Kategorie „${aktiv}“ ist gerade nichts zum Ausleihen da. Wähle oben „Alle“, um alles zu sehen.`
-              : "Gerade ist nichts zum Ausleihen da. Schau bald wieder vorbei."}
+                : "Gerade ist nichts zum Ausleihen da. Biete doch selbst etwas an."}
           </p>
         )}
       </section>

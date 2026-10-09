@@ -19,6 +19,12 @@ export default async function Header() {
           >
             Gegenstände
           </Link>
+          <Link
+            href="/anbieten"
+            className="flex min-h-11 items-center rounded-lg px-2 font-medium text-foreground hover:bg-accent-soft"
+          >
+            Anbieten
+          </Link>
           {email ? (
             <>
               <span className="max-w-[8rem] truncate sm:max-w-[16rem]" title={email}>

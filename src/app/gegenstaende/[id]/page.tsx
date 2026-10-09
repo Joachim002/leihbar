@@ -1,24 +1,16 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { gegenstaende } from "@/data/gegenstaende";
+import GegenstandBild from "@/components/GegenstandBild";
+import { holeGegenstand } from "@/lib/gegenstaende";
 import { preisText } from "@/lib/format";
-
-function findeGegenstand(id: string) {
-  return gegenstaende.find((gegenstand) => gegenstand.id === id);
-}
-
-export function generateStaticParams() {
-  return gegenstaende.map((gegenstand) => ({ id: gegenstand.id }));
-}
 
 export async function generateMetadata({
   params,
 }: PageProps<"/gegenstaende/[id]">): Promise<Metadata> {
   const { id } = await params;
-  const gegenstand = findeGegenstand(id);
+  const gegenstand = await holeGegenstand(id);
   return { title: gegenstand ? gegenstand.titel : "Nicht gefunden" };
 }
 
@@ -26,7 +18,7 @@ export default async function GegenstandSeite({
   params,
 }: PageProps<"/gegenstaende/[id]">) {
   const { id } = await params;
-  const gegenstand = findeGegenstand(id);
+  const gegenstand = await holeGegenstand(id);
 
   if (!gegenstand) {
     notFound();
@@ -47,13 +39,11 @@ export default async function GegenstandSeite({
 
       <article className="grid gap-6 md:grid-cols-2 md:gap-10">
         <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-border bg-accent-soft">
-          <Image
-            src={bild}
+          <GegenstandBild
+            bild={bild}
             alt={titel}
-            fill
             sizes="(min-width: 768px) 480px, 100vw"
-            className="object-cover"
-            preload
+            priority
           />
         </div>
 

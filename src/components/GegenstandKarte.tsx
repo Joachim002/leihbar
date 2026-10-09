@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Gegenstand } from "@/data/gegenstaende";
+import GegenstandBild from "@/components/GegenstandBild";
 import { preisText } from "@/lib/format";
 
 type Props = {
@@ -14,12 +14,11 @@ export default function GegenstandKarte({ gegenstand }: Props) {
     <article className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="relative aspect-[4/3] overflow-hidden bg-accent-soft">
         {/* Der Titel steht direkt darunter, deshalb ist der Alt-Text leer. */}
-        <Image
-          src={bild}
+        <GegenstandBild
+          bild={bild}
           alt=""
-          fill
           sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 100vw"
-          className="object-cover transition duration-500 group-hover:scale-105"
+          className="transition duration-500 group-hover:scale-105"
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 p-5">

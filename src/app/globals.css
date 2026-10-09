@@ -9,6 +9,7 @@
   --muted: #5d5d68;
   --card: #ffffff;
   --border: #e0e0dc;
+  --error: #b3261e;
 }
 
 @theme inline {
@@ -19,6 +20,7 @@
   --color-muted: var(--muted);
   --color-card: var(--card);
   --color-border: var(--border);
+  --color-error: var(--error);
   /* Schriften kommen aus layout.tsx (next/font), die Namen danach sind nur der Notfall. */
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
