@@ -26,6 +26,7 @@ export default function AnmeldeFormular() {
           type="email"
           autoComplete="email"
           required
+          defaultValue={zustand?.email}
           className={feld}
         />
       </div>

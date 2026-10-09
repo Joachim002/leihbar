@@ -76,7 +76,18 @@ export async function gegenstandAnbieten(
   }
 
   const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getClaims();
+  const ownerId = auth?.claims?.sub;
+  if (!ownerId) {
+    return {
+      fehler: {},
+      meldung: "Du bist nicht mehr angemeldet. Bitte melde dich an und versuch es noch einmal.",
+      eingaben,
+    };
+  }
+
   const { error } = await supabase.from("items").insert({
+    owner_id: ownerId,
     titel: eingaben.titel,
     kategorie: eingaben.kategorie,
     beschreibung: eingaben.beschreibung,
