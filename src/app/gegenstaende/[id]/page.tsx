@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import GegenstandBild from "@/components/GegenstandBild";
 import { holeGegenstand } from "@/lib/gegenstaende";
+import AnfrageBereich from "@/components/AnfrageBereich";
+import { holeAnfrageStand } from "@/lib/anfragen";
 import { preisText } from "@/lib/format";
 
 export async function generateMetadata({
@@ -26,6 +28,7 @@ export default async function GegenstandSeite({
 
   const { titel, kategorie, beschreibung, besitzer, ort, preisProTag, verfuegbar, bild } =
     gegenstand;
+  const anfrage = await holeAnfrageStand(gegenstand.id);
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
@@ -56,6 +59,10 @@ export default async function GegenstandSeite({
               Dieser Gegenstand ist gerade verliehen.
             </p>
           )}
+          {/* Am Handy bleibt der Bereich am unteren Rand sichtbar, ohne zu scrollen. */}
+          <div className="sticky bottom-0 z-10 -mx-4 border-t border-border bg-background px-4 py-3 md:static md:mx-0 md:border-0 md:p-0">
+            <AnfrageBereich itemId={gegenstand.id} verfuegbar={verfuegbar} {...anfrage} />
+          </div>
           <p className="leading-relaxed">{beschreibung}</p>
           <dl className="space-y-1 text-muted">
             <div className="flex gap-1">
