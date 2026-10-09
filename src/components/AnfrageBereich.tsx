@@ -38,7 +38,7 @@ export default function AnfrageBereich({ itemId, anzahl, angefragt, angemeldet, 
 
   let aktion;
   if (eigener) {
-    aktion = <p className="rounded-xl bg-accent-soft px-4 py-3">Das ist dein Gegenstand. Hier siehst du bald, wer ihn anfragt.</p>;
+    aktion = <p className="rounded-xl bg-accent-soft px-4 py-3">Das ist dein Gegenstand. Wer ihn angefragt hat, siehst du weiter unten.</p>;
   } else if (!angemeldet) {
     aktion = (
       <Link href="/anmelden" className={`${knopf} bg-accent text-white hover:opacity-90`}>

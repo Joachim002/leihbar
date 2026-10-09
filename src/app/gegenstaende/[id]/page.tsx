@@ -5,7 +5,8 @@ import { ArrowLeft } from "lucide-react";
 import GegenstandBild from "@/components/GegenstandBild";
 import { holeGegenstand } from "@/lib/gegenstaende";
 import AnfrageBereich from "@/components/AnfrageBereich";
-import { holeAnfrageStand } from "@/lib/anfragen";
+import AnfragendeListe from "@/components/AnfragendeListe";
+import { holeAnfrageStand, holeAnfragende } from "@/lib/anfragen";
 import { preisText } from "@/lib/format";
 
 export async function generateMetadata({
@@ -29,6 +30,7 @@ export default async function GegenstandSeite({
   const { titel, kategorie, beschreibung, besitzer, ort, preisProTag, verfuegbar, bild } =
     gegenstand;
   const anfrage = await holeAnfrageStand(gegenstand.id);
+  const anfragende = anfrage.eigener ? await holeAnfragende(gegenstand.id) : null;
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">
@@ -76,6 +78,8 @@ export default async function GegenstandSeite({
           </dl>
         </div>
       </article>
+
+      {anfrage.eigener && <AnfragendeListe anfragende={anfragende} />}
     </main>
   );
 }

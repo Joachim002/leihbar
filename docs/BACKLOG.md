@@ -96,7 +96,7 @@
 
 ## Ergänzung (nach Issue 6) — Anfragen für Besitzer*innen
 
-### ⬜ Issue 9 — Wer hat angefragt?
+### 🔧 Issue 9 — Wer hat angefragt?
 **Ziel:** Besitzer*innen sehen auf der Detailseite ihres Gegenstands, wer ihn angefragt hat und wie sie die Person erreichen (E-Mail-Adresse) – damit sie die Übergabe absprechen können.
 **Nicht im Umfang:** Anfrage annehmen oder ablehnen, Chat, Benachrichtigungen, Zeitraum.
 **Akzeptanzkriterien:**

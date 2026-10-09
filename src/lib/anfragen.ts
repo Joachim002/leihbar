@@ -19,12 +19,13 @@ export async function holeAnfrageStand(itemId: string): Promise<AnfrageStand> {
   if (!supabaseKonfiguriert) return leer;
 
   const supabase = await createClient();
-  const [{ data: auth }, { count }] = await Promise.all([
+  // Den Zähler liefert eine Funktion, weil fremde Anfragen selbst nicht lesbar sind.
+  const [{ data: auth }, { data: anzahl }] = await Promise.all([
     supabase.auth.getClaims(),
-    supabase.from("requests").select("id", { count: "exact", head: true }).eq("item_id", itemId),
+    supabase.rpc("anfrage_anzahl", { p_item_id: itemId }),
   ]);
   const userId = auth?.claims?.sub;
-  if (!userId) return { ...leer, anzahl: count ?? 0 };
+  if (!userId) return { ...leer, anzahl: anzahl ?? 0 };
 
   const [{ count: eigene }, { data: gegenstand }] = await Promise.all([
     supabase
@@ -36,7 +37,7 @@ export async function holeAnfrageStand(itemId: string): Promise<AnfrageStand> {
   ]);
 
   return {
-    anzahl: count ?? 0,
+    anzahl: anzahl ?? 0,
     angefragt: (eigene ?? 0) > 0,
     angemeldet: true,
     eigener: gegenstand?.owner_id === userId,
@@ -64,4 +65,18 @@ export async function holeMeineAnfragen(): Promise<Gegenstand[] | null> {
   return anfragen
     .map((anfrage) => gegenstaende.find((gegenstand) => gegenstand.id === anfrage.item_id))
     .filter((gegenstand): gegenstand is Gegenstand => gegenstand !== undefined);
+}
+
+export type Anfragende = { email: string; angefragtAm: string };
+
+/** Wer den Gegenstand angefragt hat, neueste zuerst. Nur Besitzer*innen bekommen Adressen; sonst und bei Fehlern `null`. */
+export async function holeAnfragende(itemId: string): Promise<Anfragende[] | null> {
+  if (!supabaseKonfiguriert) return null;
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("anfragende_emails", { p_item_id: itemId });
+  if (error) return null;
+  return (data ?? []).map((zeile: { email: string; angefragt_am: string }) => ({
+    email: zeile.email,
+    angefragtAm: zeile.angefragt_am,
+  }));
 }
