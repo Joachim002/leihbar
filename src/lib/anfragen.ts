@@ -87,3 +87,47 @@ export async function holeAnfragende(itemId: string): Promise<Anfragende[] | nul
     status: zeile.status,
   }));
 }
+
+/** Offene Anfragen auf meine Gegenstände, je Gegenstand gezählt. `null`, wenn die Datenbank nicht antwortet; leer, wenn niemand angemeldet ist. */
+async function offeneAnfragenJeGegenstand(): Promise<Map<string, number> | null> {
+  if (!supabaseKonfiguriert) return null;
+  const supabase = await createClient();
+  const { data: auth } = await supabase.auth.getClaims();
+  const userId = auth?.claims?.sub;
+  const zaehler = new Map<string, number>();
+  if (!userId) return zaehler;
+
+  // Erst meine Gegenstände, dann nur deren offene Anfragen – meine eigenen Anfragen an andere zählen so nicht mit.
+  const { data: meine, error: fehlerItems } = await supabase.from("items").select("id").eq("owner_id", userId);
+  if (fehlerItems) return null;
+  if (meine.length === 0) return zaehler;
+
+  const { data: offene, error } = await supabase
+    .from("requests")
+    .select("item_id")
+    .in("item_id", meine.map((zeile) => zeile.id))
+    .eq("status", "offen");
+  if (error) return null;
+  for (const { item_id } of offene) zaehler.set(item_id, (zaehler.get(item_id) ?? 0) + 1);
+  return zaehler;
+}
+
+/** Wie viele offene Anfragen auf meine Gegenstände warten (für den Header). `null`, wenn die Datenbank nicht antwortet. */
+export async function holeOffeneAnfragenZahl(): Promise<number | null> {
+  const zaehler = await offeneAnfragenJeGegenstand();
+  if (!zaehler) return null;
+  return [...zaehler.values()].reduce((summe, anzahl) => summe + anzahl, 0);
+}
+
+export type EingegangeneAnfragen = { gegenstand: Gegenstand; anzahl: number };
+
+/** Meine Gegenstände mit offenen Anfragen, die meisten zuerst. `null`, wenn die Datenbank nicht antwortet. */
+export async function holeEingegangeneAnfragen(): Promise<EingegangeneAnfragen[] | null> {
+  const zaehler = await offeneAnfragenJeGegenstand();
+  if (!zaehler) return null;
+  const gegenstaende = await holeGegenstaende([...zaehler.keys()]);
+  if (!gegenstaende) return null;
+  return gegenstaende
+    .map((gegenstand) => ({ gegenstand, anzahl: zaehler.get(gegenstand.id) ?? 0 }))
+    .sort((a, b) => b.anzahl - a.anzahl);
+}

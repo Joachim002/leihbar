@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { TreePine } from "lucide-react";
 import { abmelden } from "@/app/anmelden/actions";
+import AnfragenHinweis from "@/components/AnfragenHinweis";
+import { holeOffeneAnfragenZahl } from "@/lib/anfragen";
 import { holeEmail } from "@/lib/supabase/server";
 
 export default async function Header() {
   const email = await holeEmail();
+  const offeneAnfragen = email ? await holeOffeneAnfragenZahl() : null;
 
   return (
     <header className="border-b border-foreground bg-background">
@@ -28,7 +31,8 @@ export default async function Header() {
           </Link>
           {email ? (
             <>
-              <span className="max-w-[4.5rem] truncate sm:max-w-[16rem]" title={email}>
+              <AnfragenHinweis anzahl={offeneAnfragen} />
+              <span className="sr-only max-w-[16rem] truncate sm:not-sr-only sm:inline" title={email}>
                 <span className="sr-only">Angemeldet als </span>
                 {email}
               </span>

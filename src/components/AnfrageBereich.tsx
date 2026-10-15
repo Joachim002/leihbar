@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useOptimistic, useState, useTransition } from "react";
 import { Hand } from "lucide-react";
+import { AnimatePresence, motion, useAnimate, useReducedMotion } from "motion/react";
 import { anfrageUmschalten } from "@/app/gegenstaende/[id]/actions";
 import { browserClient } from "@/lib/supabase/browser";
 
@@ -21,6 +22,8 @@ const knopf =
 export default function AnfrageBereich({ itemId, anzahl, angefragt, angemeldet, eigener, verfuegbar }: Props) {
   const [laeuft, starte] = useTransition();
   const [meldung, setzeMeldung] = useState<string | null>(null);
+  const [knopfRef, animiere] = useAnimate<HTMLButtonElement>();
+  const weniger = useReducedMotion();
   // Der Zähler wird alle paar Sekunden neu gefragt, damit Anfragen anderer ohne Neuladen auftauchen.
   const [liveAnzahl, setzeLiveAnzahl] = useState(anzahl);
   const [serverAnzahl, setzeServerAnzahl] = useState(anzahl);
@@ -55,7 +58,11 @@ export default function AnfrageBereich({ itemId, anzahl, angefragt, angemeldet, 
     starte(async () => {
       setzeStand({ anzahl: stand.anzahl + (anfragen ? 1 : -1), angefragt: anfragen });
       const ergebnis = await anfrageUmschalten(itemId, anfragen);
-      if (!ergebnis.ok) setzeMeldung(ergebnis.meldung ?? null);
+      if (!ergebnis.ok) {
+        setzeMeldung(ergebnis.meldung ?? null);
+        // Kurzes Wackeln, damit man den Fehler auch sieht; bei „Bewegung reduzieren“ nur die Meldung.
+        if (!weniger && knopfRef.current) animiere(knopfRef.current, { x: [0, -8, 8, -5, 5, 0] }, { duration: 0.3 });
+      }
     });
   }
 
@@ -74,6 +81,7 @@ export default function AnfrageBereich({ itemId, anzahl, angefragt, angemeldet, 
   } else {
     aktion = (
       <button
+        ref={knopfRef}
         type="button"
         onClick={klick}
         disabled={laeuft}
@@ -94,7 +102,20 @@ export default function AnfrageBereich({ itemId, anzahl, angefragt, angemeldet, 
     <div className="flex flex-col gap-3">
       <p className="text-muted">
         <span>Anfragen: </span>
-        <span className="font-medium text-foreground" aria-live="polite">{stand.anzahl}</span>
+        <span className="relative inline-flex overflow-hidden align-bottom font-medium text-foreground" aria-live="polite">
+          <AnimatePresence mode="popLayout" initial={false}>
+            <motion.span
+              key={stand.anzahl}
+              initial={weniger ? false : { y: "60%", opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={weniger ? { opacity: 0, transition: { duration: 0 } } : { y: "-60%", opacity: 0 }}
+              transition={{ duration: weniger ? 0 : 0.2, ease: "easeOut" }}
+              className="inline-block"
+            >
+              {stand.anzahl}
+            </motion.span>
+          </AnimatePresence>
+        </span>
       </p>
       {aktion}
       {meldung && (
