@@ -48,3 +48,7 @@ next-env.d.ts
 
 # Browser-Protokolle vom Playwright-Testwerkzeug
 .playwright-mcp/
+
+# playwright
+/test-results/
+/playwright-report/
