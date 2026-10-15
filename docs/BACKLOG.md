@@ -133,7 +133,7 @@
 
 **Fertig, wenn:** die nächste Person in der Runde auf meiner Live-Adresse einen Gegenstand angefragt hat, den ich angeboten habe; ich habe angenommen und sie hat „angenommen“ gesehen; eine zweite Anfrage abgelehnt; RLS-Prüfung mit dem Supabase-MCP ohne Lücke.
 
-### ⬜ Issue 12 — Hinweis auf neue Anfragen (wer schnell ist)
+### 🔧 Issue 12 — Hinweis auf neue Anfragen (wer schnell ist)
 **Ziel:** Im Header sehe ich, wie viele offene Anfragen auf meine Gegenstände warten – damit ich keine verpasse.
 **Nicht im Umfang:** E-Mail- oder Push-Benachrichtigungen, Anfragen auf fremde Gegenstände.
 **Akzeptanzkriterien:**
@@ -147,7 +147,7 @@
 
 ## Tag 2 — Übung 7: Animation
 
-### ⬜ Issue 13 — Filter mit Animation
+### 🔧 Issue 13 — Filter mit Animation
 **Ziel:** Beim Wechsel der Kategorie gleiten die Karten an ihren neuen Platz, statt zu springen – damit man sieht, was wegfällt und was bleibt.
 **Nicht im Umfang:** Animation beim ersten Laden der Seite, neue Filter, Sortierung.
 **Akzeptanzkriterien:**
@@ -159,7 +159,7 @@
 
 **Fertig, wenn:** jede Kategorie angeklickt, schnell hin und her gewechselt, einmal mit „Bewegung reduzieren“ (DevTools → Rendering → prefers-reduced-motion: reduce) und einmal in Handybreite.
 
-### ⬜ Issue 14 — Anfragen ohne Warten
+### 🔧 Issue 14 — Anfragen ohne Warten
 **Ziel:** Button und Zähler reagieren sofort beim Klick, nicht erst nach der Antwort der Datenbank – damit sich die App schnell anfühlt; klappt das Speichern nicht, sieht man das.
 **Nicht im Umfang:** Töne, Vibration, Animationen auf dem Rest der Seite.
 **Akzeptanzkriterien:**

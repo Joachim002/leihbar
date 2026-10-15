@@ -37,6 +37,7 @@ export async function anfrageUmschalten(itemId: string, anfragen: boolean): Prom
   }
 
   revalidatePath(`/gegenstaende/${itemId}`);
+  revalidatePath("/eingehende-anfragen");
   return { ok: true };
 }
 
@@ -67,5 +68,8 @@ export async function anfrageBeantworten(
 
   revalidatePath(`/gegenstaende/${itemId}`);
   revalidatePath("/meine-anfragen");
+  revalidatePath("/eingehende-anfragen");
+  // Der Header (Zähler) liegt im Layout und wird sonst erst beim nächsten Abgleich neu gezählt.
+  revalidatePath("/", "layout");
   return { ok: true };
 }

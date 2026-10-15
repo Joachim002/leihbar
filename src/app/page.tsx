@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Waldrand from "@/components/Waldrand";
-import KategorieFilter from "@/components/KategorieFilter";
-import Katalog from "@/components/Katalog";
+import FilterKatalog from "@/components/FilterKatalog";
 import { kategorien } from "@/data/gegenstaende";
 import { holeVerfuegbareGegenstaende } from "@/lib/gegenstaende";
 
@@ -11,7 +10,6 @@ export default async function Home({ searchParams }: PageProps<"/">) {
   const aktiv = kategorien.find((kategorie) => kategorie === gewaehlt) ?? null;
 
   const alle = await holeVerfuegbareGegenstaende();
-  const verfuegbare = (alle ?? []).filter((gegenstand) => !aktiv || gegenstand.kategorie === aktiv);
 
   return (
     <main className="mx-auto w-full max-w-5xl flex-1 px-4 pb-12 pt-12">
@@ -45,18 +43,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
         <h2 id="gegenstaende-titel" className="mb-6 font-display text-4xl sm:text-5xl">
           Das kannst du ausleihen
         </h2>
-        <KategorieFilter aktiv={aktiv} />
-        {verfuegbare.length > 0 ? (
-          <Katalog ueberschrift="h3" eintraege={verfuegbare.map((gegenstand) => ({ gegenstand }))} />
-        ) : (
-          <p className="border-y border-foreground py-10 text-center text-muted">
-            {alle === null
-              ? "Die Gegenstände lassen sich gerade nicht laden. Bitte versuch es gleich noch einmal."
-              : aktiv
-              ? `In der Kategorie „${aktiv}“ ist gerade nichts zum Ausleihen da. Wähle oben „Alle“, um alles zu sehen.`
-                : "Gerade ist nichts zum Ausleihen da. Biete doch selbst etwas an."}
-          </p>
-        )}
+        <FilterKatalog gegenstaende={alle} aktiv={aktiv} />
       </section>
     </main>
   );
