@@ -23,10 +23,17 @@ Dieses Projekt gehört einer/einem Studierenden der NDU (Master Management by In
 - **Nie `git push --force`, nie `rm -rf`, nie `.env*`-Dateien committen.**
 - Akzeptanzkriterien aus `docs/BACKLOG.md` sind die Definition of Done. Wenn ein Issue umgesetzt ist, geh die Kriterien einzeln durch und zeig für jedes einen **Beleg**: was du geprüft hast (Build, Test, Abfrage) und was die Person im Browser sehen soll. Behaupte nichts, was du nicht geprüft hast.
 
+## Arbeitsweise
+
+- **Ein Branch pro Issue.** Jedes Issue bekommt einen eigenen Branch (z. B. `issue-12-hinweis-neue-anfragen`). Gearbeitet wird nie direkt auf `main`.
+- **Vor dem Pull Request:** Führ `/code-review` aus und zeig mir die Funde in einfachen Worten: was auffällt, warum es wichtig ist und was es für die App bedeutet. Behebe nur, was ich freigebe.
+- **Pull-Request-Beschreibung ohne Programmierkenntnisse verständlich.** Sie hat drei Teile: Was wurde geändert? Wie prüfe ich es im Browser? Welche Risiken gibt es?
+
 ## Tech-Stack (nicht ohne Rücksprache ändern)
 
 - Next.js (App Router, `src/app`), TypeScript, Tailwind CSS v4
 - Datenbank & Auth: **Supabase** (ab Tag 2), Zugriff über `@supabase/supabase-js` und `@supabase/ssr`. Schlüssel: der **Publishable Key** (`sb_publishable_…`) in `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`; ein **Secret Key** (`sb_secret_…`) nur im Backend und nie mit `NEXT_PUBLIC_`. Die alten „anon“/„service_role“-Keys nicht verwenden.
+- **Login-Weiterleitungen:** Jeder Supabase-Aufruf mit Weiterleitung (`signUp` mit `emailRedirectTo`, Passwort-Reset, Magic Link, Google-/GitHub-Login) bekommt als Ziel die aktuelle Adresse der App plus eine Route, die den Code aus dem Link in eine Sitzung tauscht (z. B. `/auth/confirm`, nach der Supabase-Doku für Next.js) – nie eine feste URL wie `localhost:3000` oder die Vercel-Adresse. Aktuelle Adresse: im Browser `window.location.origin`, auf dem Server aus den Request-Headern. Supabase akzeptiert nur Adressen, die unter *Authentication → URL Configuration → Redirect URLs* stehen (die Vercel-Adresse und `http://localhost:*/**`), und nimmt sonst stillschweigend die Site URL. Landet ein Login auf der falschen Adresse, prüf zuerst diese Liste und sag der Person, was dort fehlt.
 - UI: schlicht, modern, mobile-first. Keine zusätzlichen UI-Bibliotheken ohne Rücksprache.
 - Aktuelle Doku: Bei Fragen zu Bibliotheken (Supabase, Tailwind, Lucide …) nutze **Context7** statt deines Trainingswissens – mit Library-ID, wenn du sie kennst (z. B. `/supabase/supabase`), eine Frage pro Abfrage, passend zur Version in `package.json`. Ausnahme Next.js: Die passende Doku liegt in `node_modules/next/dist/docs/` (siehe `AGENTS.md`).
 - Icons: **Lucide** (`lucide-react`, schon installiert), keine Emojis in der Oberfläche. Dekorative Icons brauchen nichts; ein Icon ohne Text daneben (z. B. ein Button nur mit Icon) bekommt ein `aria-label`.
